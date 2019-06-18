@@ -3,6 +3,7 @@ import { StyleSheet, Image } from 'react-native'
 import { createAppContainer, createStackNavigator, createBottomTabNavigator, createSwitchNavigator } from 'react-navigation'
 import LogInView from '../Components/LogInView'
 import AccountView from '../Components/AccountView'
+import HistoryView from '../Components/HistoryView'
 
 
 const AuthStack = createStackNavigator(
@@ -21,8 +22,27 @@ const AuthStack = createStackNavigator(
 
 const AppStack = createBottomTabNavigator(
     {
-        LogIn: {
-        screen: LogInView
+        History: {
+            screen: HistoryView,
+            navigationOptions: {
+                tabBarIcon: ({ focused }) => {
+                    if (focused){
+                        return (
+                            <Image
+                                source={require('../assets/historyIconActive.png')}
+                                style = { styles.icon }
+                            />
+                        )
+                    } else {
+                        return (
+                            <Image
+                                source={require('../assets/historyIcon.png')}
+                                style = { styles.icon }
+                            />
+                        )
+                    }
+                }
+            }
         },
         Account: {
             screen: AccountView,

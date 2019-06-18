@@ -5,11 +5,11 @@ import { LinearGradient } from 'expo-linear-gradient';
 class AccountView extends React.Component {
 
     render(){
-        return(
+        return (
             <View style = {styles.background}>
                 <LinearGradient style = { styles.profileImgView }
                 start = {[0, 0]}
-                start = {[1, 1]}
+                end = {[1, 1]}
                 colors={['#00F260', '#0575E6']}
                 >
                     <Image source={require('../assets/profileIcon.png')} style={ styles.iconImg } />
