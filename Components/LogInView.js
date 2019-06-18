@@ -30,7 +30,7 @@ class LogInView extends React.Component {
                         onFocus = {() => this.passwordInputFocus()}
                         style = { styles.TextInput }
                     />
-                    <TouchableOpacity style = { styles.btn }>
+                    <TouchableOpacity style = { styles.btn } onPress = { () => this.onPressBtn() } >
                         <Text style = {styles.textBtn}>CONNEXION</Text>
                     </TouchableOpacity>
                 </View>
@@ -50,6 +50,10 @@ class LogInView extends React.Component {
         })
     }
 
+    onPressBtn() {
+        this.props.navigation.navigate('App')
+    }
+
 }
 
 const styles = StyleSheet.create({
@@ -58,7 +62,7 @@ const styles = StyleSheet.create({
     },
     LogoView: {
         flex: 2,
-        justifyContent: 'center'
+        justifyContent: 'flex-end'
     },
     LogoImg: {
         height: '60%',
@@ -76,8 +80,8 @@ const styles = StyleSheet.create({
         paddingLeft: 25,
         paddingRight: 25,
         width: '80%',
-        marginBottom: 5,
-        backgroundColor: 'rgba(255, 255, 255, 0.4)'
+        marginBottom: 10,
+        backgroundColor: 'rgba(255, 255, 255, 0.25)'
     },
     btn : {
         width: '80%',
@@ -87,7 +91,7 @@ const styles = StyleSheet.create({
         paddingLeft: 25,
         paddingRight: 25,
         backgroundColor: '#09bc8a',
-        marginTop: '20%'
+        marginTop: '7.5%'
     },
     textBtn : {
         width: '100%',
