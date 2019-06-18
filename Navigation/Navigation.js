@@ -50,7 +50,7 @@ const AppStack = createBottomTabNavigator(
     {
         tabBarOptions: {
           activeBackgroundColor: '#C5C9DA', // Couleur d'arrière-plan de l'onglet sélectionné
-          inactiveBackgroundColor: '#d8ddef',
+          inactiveBackgroundColor: '#E2E6F3',
           showLabel: false, // On masque les titres
           showIcon: true
         }

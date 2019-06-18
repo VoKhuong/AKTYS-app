@@ -87,11 +87,11 @@ const styles = StyleSheet.create({
         width: '80%',
         height: 50,
         justifyContent: 'center',
+        alignItems: 'center',
         borderRadius: 25,
         paddingLeft: 25,
         paddingRight: 25,
-        backgroundColor: '#09bc8a',
-        marginTop: '7.5%'
+        backgroundColor: '#09bc8a'
     },
     textBtn : {
         width: '100%',
