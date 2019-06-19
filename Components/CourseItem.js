@@ -45,7 +45,9 @@ class CourseItem extends React.Component {
                     start = {[0, 0]}
                     end = {[1, 1]}
                     colors={colorArray}
-                />
+                >
+                    <Text style = { styles.footerTxt } >{ course.id }</Text>
+                </LinearGradient>
             </View>
         )
     }
@@ -123,7 +125,14 @@ const styles = StyleSheet.create({
     footer: {
         flex: 2,
         borderBottomLeftRadius: 3,
-        borderBottomRightRadius: 3
+        borderBottomRightRadius: 3,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    footerTxt: {
+        color: 'white',
+        fontSize: 12,
+        textAlign: 'center'
     }
 })
 

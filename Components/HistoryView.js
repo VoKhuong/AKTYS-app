@@ -16,7 +16,7 @@ class HistoryView extends React.Component {
                     <Image style = { styles.iconImg } source={require('../assets/historyBigIcon.png')} />
                 </LinearGradient>
                 <FlatList
-                    data={[{subject: 'Informatique', teacher: {firstName: 'Jean-Jacques', lastName: 'gogo', id: '1'}, present: 12, expected: 20}, {subject: 'Mathématiques', teacher: {firstName: 'Jean-Jacques', lastName: 'gogo', id: '2'}, present: 12, expected: 20}, {subject: 'Droit', teacher: {firstName: 'Jean-Jacques', lastName: 'gogo', id: '3'}, present: 12, expected: 20}, {subject: 'dunno', teacher: {firstName: 'Jean-Jacques', lastName: 'gogo', id: '4'}, present: 12, expected: 20}]}
+                    data={[{id: '1', subject: 'Informatique', teacher: {firstName: 'Jean-Jacques', lastName: 'gogo', id: '1'}, present: 12, expected: 20}, {id: '2', subject: 'Mathématiques', teacher: {firstName: 'Jean-Jacques', lastName: 'gogo', id: '2'}, present: 12, expected: 20}, {id: '3', subject: 'Droit', teacher: {firstName: 'Jean-Jacques', lastName: 'gogo', id: '3'}, present: 12, expected: 20}, {id: '4', subject: 'dunno', teacher: {firstName: 'Jean-Jacques', lastName: 'gogo', id: '4'}, present: 12, expected: 20}]}
                     renderItem={ ({item}) => <CourseItem course = { item } /> }
                 />
             </View>
