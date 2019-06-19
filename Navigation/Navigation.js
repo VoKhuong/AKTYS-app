@@ -4,8 +4,7 @@ import { createAppContainer, createStackNavigator, createBottomTabNavigator, cre
 import LogInView from '../Components/LogInView'
 import AccountView from '../Components/AccountView'
 import HistoryView from '../Components/HistoryView'
-
-
+import PictureView from '../Components/PictureView'
 const AuthStack = createStackNavigator(
     {
         LogIn: {
@@ -44,6 +43,28 @@ const AppStack = createBottomTabNavigator(
                 }
             }
         },
+        Picture: {
+            screen: PictureView,
+            navigationOptions: {
+                tabBarIcon: ({ focused }) => {
+                    if (focused){
+                        return (
+                            <Image
+                                source={require('../assets/pictureIconActive.png')}
+                                style = { styles.icon }
+                            />
+                        )
+                    } else {
+                        return (
+                            <Image
+                                source={require('../assets/pictureIcon.png')}
+                                style = { styles.icon }
+                            />
+                        )
+                    }
+                }
+            }
+        },
         Account: {
             screen: AccountView,
             navigationOptions: {
@@ -67,6 +88,7 @@ const AppStack = createBottomTabNavigator(
             }
         }
     },
+
     {
         tabBarOptions: {
           activeBackgroundColor: '#C5C9DA', // Couleur d'arrière-plan de l'onglet sélectionné
