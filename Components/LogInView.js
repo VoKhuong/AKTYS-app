@@ -1,14 +1,16 @@
 import React from 'react'
 import { StyleSheet, View, Text, TextInput, TouchableOpacity, ImageBackground, Image } from 'react-native'
+import { logIn } from '../API/KatysAPI'
 
 class LogInView extends React.Component {
 
     constructor(props) {
         super(props)
         this.state = {
-          mailFocused: false,
-          passwordFocused: false
+          isLoading: false
         }
+        this.mail = ''
+        this.password = ''
       }
 
     render(){
@@ -20,14 +22,14 @@ class LogInView extends React.Component {
                 <View style={ styles.formView }>
                     <TextInput
                         placeholder = "email@email.com"
+                        onChangeText={(text) => this._mailChanged(text)}
                         autoFocus = { true }
-                        onFocus = {() => this.mailInputFocus()}
                         style = { styles.TextInput }
                     />
                     <TextInput
                         placeholder = "Password"
+                        onChangeText={(text) => this._passwordChanged(text)}
                         secureTextEntry = { true }
-                        onFocus = {() => this.passwordInputFocus()}
                         style = { styles.TextInput }
                     />
                     <TouchableOpacity style = { styles.btn } onPress = { () => this.onPressBtn() } >
@@ -38,20 +40,22 @@ class LogInView extends React.Component {
         )
     }
 
-    mailInputFocus() {
-        this.setState({
-            mailFocused: true
-        })
+    _mailChanged(text) {
+        this.mail = text
     }
 
-    passwordInputFocus() {
-        this.setState({
-            passwordFocused: false
-        })
+    _passwordChanged(text) {
+        this.password = text
     }
 
     onPressBtn() {
-        this.props.navigation.navigate('App')
+        this.setState({ isLoading: true })
+        console.log(this.mail)
+        console.log(this.password)
+        logIn(this.mail, this.password).then(data => {
+            console.log(data)
+        })
+        //this.props.navigation.navigate('App')
     }
 
 }
