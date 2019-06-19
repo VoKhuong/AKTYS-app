@@ -1,18 +1,40 @@
 const url = 'https://katys-server.herokuapp.com/'
+import {AsyncStorage} from 'react-native';
 
-export function logIn(mail, password) {
+// https://facebook.github.io/react-native/docs/asyncstorage
+
+export async function logIn(mail, password) {
   const request = url + 'login/'
-  return fetch(request, {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      firstParam: mail,
-      secondParam: password,
-    }),
-  })
-    .then((response) => response.json())
-    .catch((error) => console.log(error))
+  try {
+        const response = await fetch(request, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                email: mail,
+                password: password,
+            }),
+        })
+        json = await response.json()
+        console.log(json)
+        if (json.token) {
+            console.log('OK')
+            await AsyncStorage.setItem('id', json.id.toString());
+            await AsyncStorage.setItem('token', json.token);
+            return true;
+        }
+        return false
+    }
+    catch (error) {
+        console.log(error)
+        return false;
+    }
+}
+
+export async function isLoggedIn() {
+    result = (await AsyncStorage.getItem('token') !== null)
+    console.log(result)
+    return result
 }

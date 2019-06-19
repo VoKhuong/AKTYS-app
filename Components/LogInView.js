@@ -1,11 +1,12 @@
 import React from 'react'
-import { StyleSheet, View, Text, TextInput, TouchableOpacity, ImageBackground, Image } from 'react-native'
-import { logIn } from '../API/KatysAPI'
+import { StyleSheet, View, Text, TextInput, TouchableOpacity, ImageBackground, Image, ActivityIndicator, AsyncStorage } from 'react-native'
+import { logIn, isLoggedIn } from '../API/KatysAPI'
 
 class LogInView extends React.Component {
 
     constructor(props) {
         super(props)
+        this.redirect()
         this.state = {
           isLoading: false
         }
@@ -14,6 +15,15 @@ class LogInView extends React.Component {
       }
 
     render(){
+        if (this.state.isLoading) {
+            btn = (<View style = { [styles.btn, styles.btnLoad] } >
+                        <ActivityIndicator size="large" color="#d8ddef" />
+                    </View>)
+        } else {
+            btn = (<TouchableOpacity style = { styles.btn } onPress = { () => this.onPressBtn() } >
+                        <Text style = {styles.textBtn}>CONNEXION</Text>
+                    </TouchableOpacity>)
+        }
         return (
             <ImageBackground source={require('../assets/LogIn_bg.jpg')} style={ styles.ImageBackground } resizeMode='cover'>
                 <View style={ styles.LogoView }>
@@ -32,9 +42,7 @@ class LogInView extends React.Component {
                         secureTextEntry = { true }
                         style = { styles.TextInput }
                     />
-                    <TouchableOpacity style = { styles.btn } onPress = { () => this.onPressBtn() } >
-                        <Text style = {styles.textBtn}>CONNEXION</Text>
-                    </TouchableOpacity>
+                    { btn }
                 </View>
             </ImageBackground>
         )
@@ -48,16 +56,24 @@ class LogInView extends React.Component {
         this.password = text
     }
 
-    onPressBtn() {
+    async onPressBtn() {
         this.setState({ isLoading: true })
         console.log(this.mail)
         console.log(this.password)
-        logIn(this.mail, this.password).then(data => {
-            console.log(data)
-        })
-        //this.props.navigation.navigate('App')
+        response = await logIn(this.mail, this.password)
+        console.log(response)
+        if (response){
+            this.props.navigation.navigate('App')
+        } else {
+            this.setState({ isLoading: false })
+        }
     }
 
+    async redirect() {
+        if (await isLoggedIn()){
+            this.props.navigation.navigate('App')
+        }
+    }
 }
 
 const styles = StyleSheet.create({
@@ -96,6 +112,9 @@ const styles = StyleSheet.create({
         paddingLeft: 25,
         paddingRight: 25,
         backgroundColor: '#09bc8a'
+    },
+    btnLoad : {
+        backgroundColor: 'rgba(9, 188, 138, 0.6)'
     },
     textBtn : {
         width: '100%',
