@@ -43,3 +43,33 @@ export async function logOut() {
     await AsyncStorage.removeItem('token')
     await AsyncStorage.removeItem('id')
 }
+
+export async function getUser() {
+    const id = await AsyncStorage.getItem('id')
+    const request = url + 'teachers/' + id.toString()
+    try {
+        const response = await fetch(request, {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            }
+        })
+        json = await response.json()
+        console.log(json)
+        if(json.error) {
+            return {
+                "firstName": "error",
+                "lastName": "error",
+                "trigram": "err"
+              }
+        }
+            return json
+      } catch (error) {
+        return {
+            "firstName": "error",
+            "lastName": "error",
+            "trigram": "err"
+          }
+      }
+}

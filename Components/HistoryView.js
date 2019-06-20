@@ -19,9 +19,15 @@ class HistoryView extends React.Component {
                     data={[{id: '1', subject: 'Informatique', teacher: {firstName: 'Jean-Jacques', lastName: 'gogo', id: '1'}, present: 12, expected: 20}, {id: '2', subject: 'Mathématiques', teacher: {firstName: 'Jean-Jacques', lastName: 'gogo', id: '2'}, present: 12, expected: 20}, {id: '3', subject: 'Droit', teacher: {firstName: 'Jean-Jacques', lastName: 'gogo', id: '3'}, present: 12, expected: 20}, {id: '4', subject: 'dunno', teacher: {firstName: 'Jean-Jacques', lastName: 'gogo', id: '4'}, present: 12, expected: 20}]}
                     renderItem={ ({item}) => <CourseItem course = { item } /> }
                     keyExtractor={ (item) => item.id }
+                    onRefresh = {() => this._refreshList()}
+                    refreshing = { false }
                 />
             </View>
         )
+    }
+
+    _refreshList() {
+        console.log('oooo')
     }
 
 }
