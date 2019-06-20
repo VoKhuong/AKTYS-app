@@ -73,3 +73,54 @@ export async function getUser() {
           }
       }
 }
+
+export async function getAllCourse() {
+    return (
+        [
+            {
+                'id': '1',
+                'subject': 'Informatique', 
+                'teacher': {'firstName': 'Jean-Jacques', 'lastName': 'gogo', 'id': '1'}, 
+                'present': 12, 'expected': 20
+            }, 
+            {
+                'id': '2', 
+                'subject': 'Mathématiques', 
+                'teacher': {'firstName': 'Jean-Jacques', 'lastName': 'gogo', 'id': '2'}, 
+                'present': 12, 'expected': 20
+            }, 
+            {
+                'id': '3', 
+                'subject': 'Droit',
+                'teacher': {'firstName': 'Jean-Jacques', 'lastName': 'gogo', 'id': '3'},
+                'present': 12, 
+                'expected': 20
+            }, 
+            {
+                'id': '4', 
+                'subject': 'dunno', 
+                'teacher': {'firstName': 'Jean-Jacques', 'lastName': 'gogo', 'id': '4'}, 
+                'present': 12, 
+                'expected': 20
+            }
+        ]
+    )
+}
+
+export async function getFutureCourse() {
+    return {
+
+    }
+}
+
+export function renderCourseLogo(subject) {
+    if (subject == 'Informatique') {
+        return require('../assets/infoIcon.png')
+    } else if (subject == 'Mathématiques') {
+        return require('../assets/mathIcon.png')
+    } else if (subject == 'Droit') {
+        return require('../assets/lawIcon.png')
+    } else {
+        return require('../assets/courseIcon.png')
+    }
+}

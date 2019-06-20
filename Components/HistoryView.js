@@ -2,8 +2,17 @@ import React from 'react'
 import { View, StyleSheet, FlatList, Image } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
 import CourseItem from './CourseItem'
+import { getAllCourse } from '../API/KatysAPI'
 
 class HistoryView extends React.Component {
+
+    constructor(props) {
+        super(props)
+        this.state = {
+          allCourse: []
+        }
+        this._getAllCourse()
+    }
 
     render(){
         return (
@@ -16,20 +25,20 @@ class HistoryView extends React.Component {
                     <Image style = { styles.iconImg } source={require('../assets/historyBigIcon.png')} />
                 </LinearGradient>
                 <FlatList
-                    data={[{id: '1', subject: 'Informatique', teacher: {firstName: 'Jean-Jacques', lastName: 'gogo', id: '1'}, present: 12, expected: 20}, {id: '2', subject: 'Mathématiques', teacher: {firstName: 'Jean-Jacques', lastName: 'gogo', id: '2'}, present: 12, expected: 20}, {id: '3', subject: 'Droit', teacher: {firstName: 'Jean-Jacques', lastName: 'gogo', id: '3'}, present: 12, expected: 20}, {id: '4', subject: 'dunno', teacher: {firstName: 'Jean-Jacques', lastName: 'gogo', id: '4'}, present: 12, expected: 20}]}
+                    data={ this.state.allCourse }
                     renderItem={ ({item}) => <CourseItem course = { item } /> }
                     keyExtractor={ (item) => item.id }
-                    onRefresh = {() => this._refreshList()}
+                    onRefresh = {() => this._getAllCourse()}
                     refreshing = { false }
                 />
             </View>
         )
     }
 
-    _refreshList() {
-        console.log('oooo')
+    async _getAllCourse() {
+        this.setState({ allCourse: await getAllCourse() })
+        console.log('Updated list')
     }
-
 }
 
 const styles = StyleSheet.create({

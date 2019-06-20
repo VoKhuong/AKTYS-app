@@ -12,7 +12,7 @@ class LogInView extends React.Component {
         }
         this.mail = ''
         this.password = ''
-      }
+    }
 
     render(){
         if (this.state.isLoading) {
