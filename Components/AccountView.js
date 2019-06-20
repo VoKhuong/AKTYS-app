@@ -1,6 +1,7 @@
 import React from 'react'
 import { View, StyleSheet, Text, Image, TouchableOpacity } from 'react-native'
-import { LinearGradient } from 'expo-linear-gradient';
+import { LinearGradient } from 'expo-linear-gradient'
+import { logOut } from '../API/KatysAPI'
 
 class AccountView extends React.Component {
 
@@ -38,6 +39,7 @@ class AccountView extends React.Component {
     }
 
     onPressBtnDeco(){
+        logOut()
         this.props.navigation.navigate('Auth')
     }
 }

@@ -38,3 +38,8 @@ export async function isLoggedIn() {
     console.log(result)
     return result
 }
+
+export async function logOut() {
+    await AsyncStorage.removeItem('token')
+    await AsyncStorage.removeItem('id')
+}
