@@ -1,8 +1,22 @@
 import React from 'react'
 import { View, StyleSheet, Text, Image, TouchableOpacity } from 'react-native'
-import { LinearGradient } from 'expo-linear-gradient';
+import { LinearGradient } from 'expo-linear-gradient'
+import { logOut, getUser } from '../API/KatysAPI'
 
 class AccountView extends React.Component {
+
+    constructor(props) {
+        super(props)
+        nullUser = {
+            'firstName': '',
+            'lastName': '',
+            'trigram': ''
+        }
+        this.state = {
+            user: nullUser
+        }
+        this.fetchData()
+    }
 
     render(){
         return (
@@ -17,15 +31,15 @@ class AccountView extends React.Component {
                 <View style = { styles.profileInfoView }>
                     <View style = { styles.layer }>
                         <Text style = { styles.labelText }>NOM :</Text>
-                        <Text style = { styles.dataText }>ZEROUALI</Text>
+                        <Text style = { styles.dataText }>{ this.state.user.lastName.toUpperCase() }</Text>
                     </View>
                     <View style = { styles.layer }>
                         <Text style = { styles.labelText }>PRENOM :</Text>
-                        <Text style = { styles.dataText }>SORAYA</Text>
+                        <Text style = { styles.dataText }>{ this.state.user.firstName.toUpperCase() }</Text>
                     </View>
                     <View style = { styles.layer }>
                         <Text style = { styles.labelText }>ID :</Text>
-                        <Text style = { styles.dataText }>NTM</Text>
+                        <Text style = { styles.dataText }>{ this.state.user.trigram.toUpperCase() }</Text>
                     </View>
                 </View>
                 <View style = { styles.buttonView }>
@@ -38,7 +52,12 @@ class AccountView extends React.Component {
     }
 
     onPressBtnDeco(){
+        logOut()
         this.props.navigation.navigate('Auth')
+    }
+
+    async fetchData(){
+        this.setState({ user: await getUser() })
     }
 }
 

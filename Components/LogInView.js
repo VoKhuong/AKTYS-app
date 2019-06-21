@@ -1,17 +1,29 @@
 import React from 'react'
-import { StyleSheet, View, Text, TextInput, TouchableOpacity, ImageBackground, Image } from 'react-native'
+import { StyleSheet, View, Text, TextInput, TouchableOpacity, ImageBackground, Image, ActivityIndicator, AsyncStorage } from 'react-native'
+import { logIn, isLoggedIn } from '../API/KatysAPI'
 
 class LogInView extends React.Component {
 
     constructor(props) {
         super(props)
+        this.redirect()
         this.state = {
-          mailFocused: false,
-          passwordFocused: false
+          isLoading: false
         }
-      }
+        this.mail = ''
+        this.password = ''
+    }
 
     render(){
+        if (this.state.isLoading) {
+            btn = (<View style = { [styles.btn, styles.btnLoad] } >
+                        <ActivityIndicator size="large" color="#d8ddef" />
+                    </View>)
+        } else {
+            btn = (<TouchableOpacity style = { styles.btn } onPress = { () => this.onPressBtn() } >
+                        <Text style = {styles.textBtn}>CONNEXION</Text>
+                    </TouchableOpacity>)
+        }
         return (
             <ImageBackground source={require('../assets/LogIn_bg.jpg')} style={ styles.ImageBackground } resizeMode='cover'>
                 <View style={ styles.LogoView }>
@@ -20,40 +32,48 @@ class LogInView extends React.Component {
                 <View style={ styles.formView }>
                     <TextInput
                         placeholder = "email@email.com"
+                        onChangeText={(text) => this._mailChanged(text)}
                         autoFocus = { true }
-                        onFocus = {() => this.mailInputFocus()}
                         style = { styles.TextInput }
                     />
                     <TextInput
                         placeholder = "Password"
+                        onChangeText={(text) => this._passwordChanged(text)}
                         secureTextEntry = { true }
-                        onFocus = {() => this.passwordInputFocus()}
                         style = { styles.TextInput }
                     />
-                    <TouchableOpacity style = { styles.btn } onPress = { () => this.onPressBtn() } >
-                        <Text style = {styles.textBtn}>CONNEXION</Text>
-                    </TouchableOpacity>
+                    { btn }
                 </View>
             </ImageBackground>
         )
     }
 
-    mailInputFocus() {
-        this.setState({
-            mailFocused: true
-        })
+    _mailChanged(text) {
+        this.mail = text
     }
 
-    passwordInputFocus() {
-        this.setState({
-            passwordFocused: false
-        })
+    _passwordChanged(text) {
+        this.password = text
     }
 
-    onPressBtn() {
-        this.props.navigation.navigate('App')
+    async onPressBtn() {
+        this.setState({ isLoading: true })
+        console.log(this.mail)
+        console.log(this.password)
+        response = await logIn(this.mail, this.password)
+        console.log(response)
+        if (response){
+            this.props.navigation.navigate('App')
+        } else {
+            this.setState({ isLoading: false })
+        }
     }
 
+    async redirect() {
+        if (await isLoggedIn()){
+            this.props.navigation.navigate('App')
+        }
+    }
 }
 
 const styles = StyleSheet.create({
@@ -92,6 +112,9 @@ const styles = StyleSheet.create({
         paddingLeft: 25,
         paddingRight: 25,
         backgroundColor: '#09bc8a'
+    },
+    btnLoad : {
+        backgroundColor: 'rgba(9, 188, 138, 0.6)'
     },
     textBtn : {
         width: '100%',

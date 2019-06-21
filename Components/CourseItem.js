@@ -1,21 +1,14 @@
 import React from 'react'
 import { StyleSheet, Image, View, Text } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
+import { renderCourseLogo } from '../API/KatysAPI'
 
 class CourseItem extends React.Component {
 
     render(){
         const course = this.props.course
         // traitement
-        if (course.subject == 'Informatique') {
-            img = require('../assets/infoIcon.png')
-        } else if (course.subject == 'Mathématiques') {
-            img = require('../assets/mathIcon.png')
-        } else if (course.subject == 'Droit') {
-            img = require('../assets/lawIcon.png')
-        } else {
-            img = require('../assets/courseIcon.png')
-        }
+        img = renderCourseLogo(course.subject)
 
         if (course.teacher.id == '1') {
             colorArray = ['#fc4a1a', '#f7b733'] // yellowOrange
@@ -45,7 +38,9 @@ class CourseItem extends React.Component {
                     start = {[0, 0]}
                     end = {[1, 1]}
                     colors={colorArray}
-                />
+                >
+                    <Text style = { styles.footerTxt } >{ course.id }</Text>
+                </LinearGradient>
             </View>
         )
     }
@@ -123,7 +118,14 @@ const styles = StyleSheet.create({
     footer: {
         flex: 2,
         borderBottomLeftRadius: 3,
-        borderBottomRightRadius: 3
+        borderBottomRightRadius: 3,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    footerTxt: {
+        color: 'white',
+        fontSize: 12,
+        textAlign: 'center'
     }
 })
 
