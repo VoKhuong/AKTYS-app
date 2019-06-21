@@ -1,5 +1,5 @@
 const url = 'https://katys-server.herokuapp.com/'
-import {AsyncStorage} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 
 // https://facebook.github.io/react-native/docs/asyncstorage
 
@@ -34,9 +34,14 @@ export async function logIn(mail, password) {
 }
 
 export async function isLoggedIn() {
-    result = (await AsyncStorage.getItem('token') !== null)
-    console.log(result)
-    return result
+    try{
+        result = (await AsyncStorage.getItem('token') !== null)
+        console.log(result)
+        return result
+    } catch (error) {
+        console.log(error)
+        return false
+    }
 }
 
 export async function logOut() {

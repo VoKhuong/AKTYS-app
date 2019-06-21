@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, StyleSheet, FlatList, Image } from 'react-native'
+import { View, StyleSheet, FlatList, Image, StatusBar } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
 import CourseItem from './CourseItem'
 import { getAllCourse } from '../API/KatysAPI'
@@ -17,6 +17,7 @@ class HistoryView extends React.Component {
     render(){
         return (
             <View style = { styles.container }>
+                <StatusBar backgroundColor="rgba(0, 0, 0, 0);" barStyle="light-content" translucent={ true } />
                 <LinearGradient style = { styles.header }
                     start={{x: 0.0, y: 0.0}}
                     end={{x: 1.0, y: 1.0}}

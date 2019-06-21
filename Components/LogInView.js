@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, View, Text, TextInput, TouchableOpacity, ImageBackground, Image, ActivityIndicator, AsyncStorage } from 'react-native'
+import { StyleSheet, View, Text, TextInput, TouchableOpacity, ImageBackground, Image, ActivityIndicator, StatusBar } from 'react-native'
 import { logIn, isLoggedIn } from '../API/KatysAPI'
 
 class LogInView extends React.Component {
@@ -26,6 +26,7 @@ class LogInView extends React.Component {
         }
         return (
             <ImageBackground source={require('../assets/LogIn_bg.jpg')} style={ styles.ImageBackground } resizeMode='cover'>
+                <StatusBar backgroundColor="rgba(0, 0, 0, 0);" barStyle="light-content" translucent={ true } />
                 <View style={ styles.LogoView }>
                     <Image source={require('../assets/logo.png')} style={ styles.LogoImg } />
                 </View>
