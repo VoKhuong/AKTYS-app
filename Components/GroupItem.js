@@ -1,12 +1,11 @@
 import React from 'react'
-import { StyleSheet, Image, View, Text, TouchableOpacity, Button } from 'react-native'
-import { LinearGradient } from 'expo-linear-gradient'
+import { StyleSheet, Image, View, Text, TouchableOpacity } from 'react-native'
+import LinearGradient from 'react-native-linear-gradient'
 import {
     StackNavigator, NavigationEvents, createAppContainer, createStackNavigator,
     createBottomTabNavigator, createSwitchNavigator, withNavigation
 } from 'react-navigation'
-import PictureView from './PictureView';
-import TakePictureView from './TakePictureView';
+import { renderCourseLogo } from '../API/KatysAPI'
 
 class GroupItem extends React.Component {
 
@@ -14,16 +13,7 @@ class GroupItem extends React.Component {
         const group = this.props.group
 
         // traitement
-        if (group.subject == 'J2E') {
-            img = require('../assets/javaIcon.png')
-        } else if (group.subject == 'UML') {
-            img = require('../assets/UMLIcon.png')
-        } else if (group.subject == 'CPOA') {
-            img = require('../assets/cpoaIcon.png')
-        } else {
-            img = require('../assets/groupIcon.png')
-        }
-
+        img = renderCourseLogo(group.subject)
 
         if (group.teacher.id == '1') {
             colorArray = ['#16222A', '#3A6073'] // yellowOrange
@@ -34,43 +24,23 @@ class GroupItem extends React.Component {
 
         // fin traitement
         return (
-            <View style={styles.container}>
-            <LinearGradient style = { styles.header }
-                start = {[0, 0]}
-                end = {[1, 1]}
+            <LinearGradient style = { styles.container }
+                start={{x: 0.0, y: 0.0}} end={{x: 1.0, y: 1.0}}
                 colors={['#f5f7fa', '#c3cfe2']}
             >
-                <View style={styles.content} >
-
-                <View style={styles.iconContainer}>
-                        <TouchableOpacity onPress={() => this.props.navigation.navigate('Auth')} title='Faire appel'>
-                        <Text style={styles.appel} >Faire l'appel </Text>
-                        </TouchableOpacity>
-                    </View>
-                    
-                    <View style={styles.iconContainer}>
-                        <TouchableOpacity onPress={() => this.props.navigation.navigate('Auth')} title='Faire appel'>
-                            <Image style={styles.icon} source={img} />
-                        </TouchableOpacity>
-                    </View>
-
-
-
-                    <TouchableOpacity onPress={() => this.props.navigation.navigate('Auth')} title='Faire appel'>
-                        <View style={styles.info}>
-                            <Text style={styles.info1} >{group.subject}</Text>
-                            <Text style={styles.info2} >9:00 - 12:30</Text>
-                        </View>
-                    </TouchableOpacity>
+                <TouchableOpacity style = { styles.touch } >
+                <View style={styles.second}>
+                    <Text style={styles.appel} >Faire l'appel </Text>
                 </View>
-                <LinearGradient
-                    style={styles.footer}
-                    start={[0, 0]}
-                    end={[1, 1]}
-                    colors={colorArray}
-                />
+                <View style={styles.second}>
+                    <Image style={styles.icon} source={img} />
+                </View>
+                <View style={styles.first}>
+                    <Text style={styles.info1} >{group.subject}</Text>
+                    <Text style={styles.info2} >9:00 - 12:30</Text>
+                </View>
+                </TouchableOpacity>
             </LinearGradient>
-            </View>
         )
     }
 }
@@ -79,7 +49,6 @@ const styles = StyleSheet.create({
     container: {
         height: 100,
         width: 'auto',
-        backgroundColor: 'rgba(0, 0, 0, 0.7)',//gris
         marginTop: 10,
         marginBottom: 10,
         marginRight: 20,
@@ -95,24 +64,13 @@ const styles = StyleSheet.create({
         shadowOpacity: 1,
         elevation: 6
     },
-    content: {
-        flex: 8,
-        flexDirection: 'row'
-    },
-    iconContainer: {
-        flex: 1,
-        borderTopLeftRadius: 3,
-        padding: 6,
-    },
     icon: {
         resizeMode: 'contain',
-        height: '100%',
-        width: 'auto'
+        height: '80%'
     },
-    info: {
-        flex: 5,
-        backgroundColor: 'transparent',
-        textAlign:'right'
+    first : {
+        flex: 4,
+        flexDirection: 'column'
     },
     info1: {
         flex: 2,
@@ -127,14 +85,6 @@ const styles = StyleSheet.create({
         paddingRight: 6,
         fontSize: 12,
         color: '#231f20'//'#878485'
-    },
-    FaireAppel: {
-        flex: 1,
-        borderTopRightRadius: 3,
-        padding: 6,
-    },
-    action: {
-        backgroundColor: 'transparent'
     },
     appel:{
         color:'#66877e',
@@ -156,16 +106,15 @@ const styles = StyleSheet.create({
         paddingBottom: 8,
         color: '#4CCEA9'
     },
-    footer: {
-        flex: 2,
-        borderBottomLeftRadius: 3,
-        borderBottomRightRadius: 3
-    },
-    header: {
-        height: '100%',
+    second : {
+        flex : 3,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems : 'center'
     },
+    touch : {
+        flex: 1,
+        flexDirection: 'row'
+    }
 })
 
 //export default GroupItem

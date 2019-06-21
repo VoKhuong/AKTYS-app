@@ -1,6 +1,6 @@
 import React from 'react'
 import { View, StyleSheet, FlatList, Image } from 'react-native'
-import { LinearGradient } from 'expo-linear-gradient'
+import LinearGradient from 'react-native-linear-gradient'
 import GroupItem from './GroupItem'
 
 
@@ -9,18 +9,17 @@ render(){
     return (
         <View style = { styles.container }>
             <LinearGradient style = { styles.header }
-                start = {[0, 0]}
-                end = {[1, 1]}
+                start={{x: 0.0, y: 0.0}} end={{x: 1.0, y: 1.0}}
                 colors={['#667eea', '#764ba2']}
             >
                 <Image style = { styles.iconImg } source={require('../assets/bookIcon.png')} />
             </LinearGradient>
             <FlatList
                 data={[
-                    {subject: 'J2E', time:'9h30-11h', teacher: {action: 'Faire l"appel', id: '1'}, expected: 20},
-                    {subject: 'UML', time:'9h30-11h', teacher: {action: 'Faire l"appel', id: '1'}, expected: 17},
-                    {subject: 'CPOA', time:'11h-12h30',teacher: {action: 'Faire l"appel', id: '1'}, expected: 13}, 
-                    {subject: 'Java',time:'14h-15h30', teacher: {action: 'Faire l"appel', id: '1'}, expected: 19}]}
+                    {id: '1', subject: 'J2E', time:'9h30-11h', teacher: {action: 'Faire l"appel', id: '1'}, expected: 20},
+                    {id: '2', subject: 'UML', time:'9h30-11h', teacher: {action: 'Faire l"appel', id: '1'}, expected: 17},
+                    {id: '3', subject: 'CPOA', time:'11h-12h30',teacher: {action: 'Faire l"appel', id: '1'}, expected: 13}, 
+                    {id: 'soleil', subject: 'Java',time:'14h-15h30', teacher: {action: 'Faire l"appel', id: '1'}, expected: 19}]}
                 renderItem={ ({item}) => <GroupItem group = { item } /> }
                 keyExtractor={(item) => item.id }
             />
