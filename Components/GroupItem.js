@@ -28,7 +28,7 @@ class GroupItem extends React.Component {
                 start={{x: 0.0, y: 0.0}} end={{x: 1.0, y: 1.0}}
                 colors={['#f5f7fa', '#c3cfe2']}
             >
-                <TouchableOpacity style = { styles.touch } >
+                <TouchableOpacity style = { styles.touch } onPress={() => this.props.navigation.navigate('Pic')} >
                 <View style={styles.second}>
                     <Text style={styles.appel} >Faire l'appel </Text>
                 </View>
