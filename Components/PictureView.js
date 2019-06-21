@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, StyleSheet, FlatList, Image } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
-import CourseItem from './CourseItem'
+import GroupItem from './GroupItem'
 
 class PictureView extends React.Component{
 render(){
@@ -10,13 +10,18 @@ render(){
             <LinearGradient style = { styles.header }
                 start = {[0, 0]}
                 end = {[1, 1]}
-                colors={['#00F260', '#0575E6']}
+                colors={['#667eea', '#764ba2']}
             >
-                <Image style = { styles.iconImg } source={require('../assets/historyBigIcon.png')} />
+                <Image style = { styles.iconImg } source={require('../assets/bookIcon.png')} />
             </LinearGradient>
             <FlatList
-                data={[{subject: 'Informatique', teacher: {firstName: 'Jean-Jacques', lastName: 'gogo', id: '1'}, present: 12, expected: 20}, {subject: 'Mathématiques', teacher: {firstName: 'Jean-Jacques', lastName: 'gogo', id: '2'}, present: 12, expected: 20}, {subject: 'Droit', teacher: {firstName: 'Jean-Jacques', lastName: 'gogo', id: '3'}, present: 12, expected: 20}, {subject: 'dunno', teacher: {firstName: 'Jean-Jacques', lastName: 'gogo', id: '4'}, present: 12, expected: 20}]}
-                renderItem={ ({item}) => <CourseItem course = { item } /> }
+                data={[
+                    {subject: 'J2E', time:'9h30-11h', teacher: {action: 'Faire l"appel', id: '1'}, expected: 20},
+                    {subject: 'UML', time:'9h30-11h', teacher: {action: 'Faire l"appel', id: '1'}, expected: 17},
+                    {subject: 'CPOA', time:'11h-12h30',teacher: {action: 'Faire l"appel', id: '1'}, expected: 13}, 
+                    {subject: 'Java',time:'14h-15h30', teacher: {action: 'Faire l"appel', id: '1'}, expected: 19}]}
+                renderItem={ ({item}) => <GroupItem group = { item } /> }
+                keyExtractor={(item) => item.id }
             />
         </View>
     )
@@ -24,7 +29,7 @@ render(){
 }
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#d8ddef',
+        backgroundColor: 'white',
         flex: 1
     },
     header: {

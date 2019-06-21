@@ -5,6 +5,7 @@ import LogInView from '../Components/LogInView'
 import AccountView from '../Components/AccountView'
 import HistoryView from '../Components/HistoryView'
 import PictureView from '../Components/PictureView'
+import TakePictureView from '../Components/TakePictureView';
 const AuthStack = createStackNavigator(
     {
         LogIn: {
@@ -98,7 +99,13 @@ const AppStack = createBottomTabNavigator(
         }
       }
 )
-
+const PicStack = createStackNavigator(
+    {
+        TakePicture:{
+            screen: TakePictureView,
+        }
+    },
+)
 const styles = StyleSheet.create({
     icon: {
         width: 30,
@@ -110,6 +117,7 @@ const SwitchStack = createSwitchNavigator(
     {
         App: AppStack,
         Auth: AuthStack,
+        Pic: PicStack
     },
     {
       initialRouteName: 'Auth',
