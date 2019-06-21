@@ -29,7 +29,7 @@ render(){
 }
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: 'white',
+        backgroundColor: '#d8ddef',
         flex: 1
     },
     header: {

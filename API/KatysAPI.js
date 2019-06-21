@@ -49,6 +49,20 @@ export async function logOut() {
     await AsyncStorage.removeItem('id')
 }
 
+export async function getId() {
+    return await AsyncStorage.getItem('id')
+}
+
+export function formatDateStr(dateStr) {
+    date1 = new Date(dateStr)
+    return (("00" + (date1.getUTCMonth() + 1)).slice(-2) + "/" + 
+    ("00" + date1.getUTCDate()).slice(-2) + "/" + 
+    date1.getUTCFullYear() + " " + 
+    ("00" + date1.getUTCHours()).slice(-2) + ":" + 
+    ("00" + date1.getUTCMinutes()).slice(-2) + ":" + 
+    ("00" + date1.getUTCSeconds()).slice(-2))
+}
+
 export async function getUser() {
     const id = await AsyncStorage.getItem('id')
     const request = url + 'teachers/' + id.toString()
@@ -79,37 +93,45 @@ export async function getUser() {
       }
 }
 
-export async function getAllCourse() {
-    return (
-        [
-            {
-                'id': '1',
-                'subject': 'Informatique', 
-                'teacher': {'firstName': 'Jean-Jacques', 'lastName': 'gogo', 'id': '1'}, 
-                'present': 12, 'expected': 20
-            }, 
-            {
-                'id': '2', 
-                'subject': 'Mathématiques', 
-                'teacher': {'firstName': 'Jean-Jacques', 'lastName': 'gogo', 'id': '2'}, 
-                'present': 12, 'expected': 20
-            }, 
-            {
-                'id': '3', 
-                'subject': 'Droit',
-                'teacher': {'firstName': 'Jean-Jacques', 'lastName': 'gogo', 'id': '3'},
-                'present': 12, 
-                'expected': 20
-            }, 
-            {
-                'id': '4', 
-                'subject': 'dunno', 
-                'teacher': {'firstName': 'Jean-Jacques', 'lastName': 'gogo', 'id': '4'}, 
-                'present': 12, 
-                'expected': 20
+export async function getUserDisplay(id) {
+    const request = url + 'teachers/' + id.toString()
+    try {
+        const response = await fetch(request, {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
             }
-        ]
-    )
+        })
+        json = await response.json()
+        if(json.error) {
+            return 'error error'
+        }
+        return (json.firstName + ' ' +json.lastName)
+      } catch (error) {
+        return 'ERROR ERROR'
+      }
+}
+
+export async function getAllCourse() {
+    const request = url + 'courses/'
+    try {
+        const response = await fetch(request, {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            }
+        })
+        json = await response.json()
+        console.log(json)
+        if(json.error) {
+            return json
+        }
+            return json
+      } catch (error) {
+          return 'ERROR'
+      }
 }
 
 export async function getFutureCourse() {
@@ -119,11 +141,11 @@ export async function getFutureCourse() {
 }
 
 export function renderCourseLogo(subject) {
-    if (subject == 'Informatique') {
+    if (subject == 'CPOA') {
         return require('../assets/infoIcon.png')
     } else if (subject == 'Mathématiques') {
         return require('../assets/mathIcon.png')
-    } else if (subject == 'Droit') {
+    } else if (subject == 'COMMUNICATION') {
         return require('../assets/lawIcon.png')
     } else {
         return require('../assets/courseIcon.png')

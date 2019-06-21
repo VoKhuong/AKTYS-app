@@ -6,16 +6,17 @@ import {
     createBottomTabNavigator, createSwitchNavigator, withNavigation
 } from 'react-navigation'
 import { renderCourseLogo } from '../API/KatysAPI'
+import ImagePicker from 'react-native-image-picker'
 
 class GroupItem extends React.Component {
 
     render() {
-        const group = this.props.group
+        this.group = this.props.group
 
         // traitement
-        img = renderCourseLogo(group.subject)
+        img = renderCourseLogo(this.group.subject)
 
-        if (group.teacher.id == '1') {
+        if (this.group.teacher.id == '1') {
             colorArray = ['#16222A', '#3A6073'] // yellowOrange
         } else {
             colorArray = ['#00F260', '#0575E6'] // greenBlue
@@ -24,29 +25,41 @@ class GroupItem extends React.Component {
 
         // fin traitement
         return (
-            <LinearGradient style = { styles.container }
+                <TouchableOpacity style = { styles.touch } onPress={ () => this.doAllStuff() } >
+                    <View style={styles.container}>
+                        <View style={styles.iconContainer}>
+                            <Image style={styles.icon} source={img} />
+                        </View>
+                        <View style={styles.info}>
+                            <Text style={styles.info1} >{this.group.subject}</Text>
+                            <Text style={styles.info2} >9:00 - 12:30</Text>
+                            <Text style={styles.info2} >9:00 - 12:30</Text>
+                        </View>
+                    </View>
+                    <LinearGradient style = { styles.footer }
                 start={{x: 0.0, y: 0.0}} end={{x: 1.0, y: 1.0}}
-                colors={['#f5f7fa', '#c3cfe2']}
-            >
-                <TouchableOpacity style = { styles.touch } onPress={() => this.props.navigation.navigate('Pic')} >
-                <View style={styles.second}>
-                    <Text style={styles.appel} >Faire l'appel </Text>
-                </View>
-                <View style={styles.second}>
-                    <Image style={styles.icon} source={img} />
-                </View>
-                <View style={styles.first}>
-                    <Text style={styles.info1} >{group.subject}</Text>
-                    <Text style={styles.info2} >9:00 - 12:30</Text>
-                </View>
-                </TouchableOpacity>
-            </LinearGradient>
+                colors={['#667eea', '#764ba2']} />
+            </TouchableOpacity>
         )
+    }
+
+    doAllStuff() {
+        ImagePicker.showImagePicker({}, (response) => {
+            if (response.didCancel) {
+              console.log('L\'utilisateur a annulé')
+            }
+            else if (response.error) {
+              console.log('Erreur : ', response.error)
+            }
+            else {
+              console.log(response.data)
+            }
+        })
     }
 }
 
 const styles = StyleSheet.create({
-    container: {
+    touch: {
         height: 100,
         width: 'auto',
         marginTop: 10,
@@ -55,6 +68,7 @@ const styles = StyleSheet.create({
         marginLeft: 20,
         borderRadius: 3,
         shadowColor: 'black',
+        backgroundColor: 'white',
 
         shadowOffset: {
             width: 0,
@@ -62,58 +76,47 @@ const styles = StyleSheet.create({
         },
         shadowRadius: 3,
         shadowOpacity: 1,
-        elevation: 6
+        elevation: 6,
+        
+    },
+    container: {
+        flex: 4,
+        flexDirection: 'row'
+    },
+    footer: {
+        flex: 1,
+        width: 'auto',
+        borderBottomLeftRadius: 3,
+        borderBottomRightRadius: 3,
+        marginRight: 0,
+        marginLeft: 0,
+    },
+    iconContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        flex: 1
     },
     icon: {
         resizeMode: 'contain',
         height: '80%'
     },
-    first : {
-        flex: 4,
+    info: {
+        flex: 3,
         flexDirection: 'column'
     },
-    info1: {
+    info1 : {
         flex: 2,
         fontSize: 22,
         padding: 6,
         color: '#231f20'
     },
-    info2: {
+    info2 : {
         flex: 1,
         paddingBottom: 4,
         paddingLeft: 6,
         paddingRight: 6,
         fontSize: 12,
-        color: '#231f20'//'#878485'
-    },
-    appel:{
-        color:'#66877e',
-        fontSize:30,
-        display:'flex',
-        textAlign:'center'
-    },
-    textFirst: {
-        flex: 3,
-        fontSize: 38,
-        paddingLeft: 10,
-        color: '#09bc8a'
-    },
-    textSecond: {
-        flex: 2,
-        fontSize: 26,
-        textAlign: 'right',
-        paddingRight: 10,
-        paddingBottom: 8,
-        color: '#4CCEA9'
-    },
-    second : {
-        flex : 3,
-        justifyContent: 'center',
-        alignItems : 'center'
-    },
-    touch : {
-        flex: 1,
-        flexDirection: 'row'
+        color: '#878485'
     }
 })
 

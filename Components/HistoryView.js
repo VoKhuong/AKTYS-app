@@ -38,7 +38,6 @@ class HistoryView extends React.Component {
 
     async _getAllCourse() {
         this.setState({ allCourse: await getAllCourse() })
-        console.log('Updated list')
     }
 }
 

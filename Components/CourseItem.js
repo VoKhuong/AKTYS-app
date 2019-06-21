@@ -1,20 +1,42 @@
 import React from 'react'
 import { StyleSheet, Image, View, Text } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
-import { renderCourseLogo } from '../API/KatysAPI'
+import { renderCourseLogo, getId, formatDateStr, getUserDisplay } from '../API/KatysAPI'
 
 class CourseItem extends React.Component {
+
+    constructor(props){
+        super(props)
+        const course = this.props.course
+        this.state = {
+            colorArray: ['#00F260', '#0575E6'],
+            teacherName: ''
+        }
+        this.setFooter(course.teacherId)
+        this.getTeacherName(course.teacherId)
+        this.begin = formatDateStr(course.begin)
+        this.end = formatDateStr(course.end)
+    }
+
+    async getTeacherName(id) {
+        strTmp = await getUserDisplay(id)
+        console.log(strTmp)
+        this.setState({ teacherName: strTmp })
+    }
+
+    async setFooter(receivedId) {
+        id = await getId()
+        if (id == receivedId) {
+            this.setState({ colorArray: ['#fc4a1a', '#f7b733'] })
+        } else {
+            this.setState({ colorArray: ['#00F260', '#0575E6'] })
+        }
+    }
 
     render(){
         const course = this.props.course
         // traitement
-        img = renderCourseLogo(course.subject)
-
-        if (course.teacher.id == '1') {
-            colorArray = ['#fc4a1a', '#f7b733'] // yellowOrange
-        } else {
-            colorArray = ['#00F260', '#0575E6'] // greenBlue
-        }
+        img = renderCourseLogo(course.name)
 
         // fin traitement
         return (
@@ -24,19 +46,20 @@ class CourseItem extends React.Component {
                         <Image style = { styles.icon } source={ img } />
                     </View>
                     <View style = { styles.info }>
-                        <Text style = { styles.info1 } >{ course.subject }</Text>
-                        <Text style = { styles.info2 } >9:00 - 12:30</Text>
-                        <Text style = { styles.info2 } >{ course.teacher.firstName } { course.teacher.lastName.toUpperCase() }</Text>
+                        <Text style = { styles.info1 } >{ course.name }</Text>
+                        <Text style = { styles.info2 } >{this.begin}</Text>
+                        <Text style = { styles.info2 } >{this.end}</Text>
+                        <Text style = { styles.info2 } >{ this.state.teacherName }</Text>
                     </View>
                     <View style = { styles.nbStudents }>
-                        <Text style = { styles.textFirst } >{ course.present }</Text>
-                        <Text style = { styles.textSecond }>/ { course.expected }</Text>
+                        <Text style = { styles.textFirst } >1</Text>
+                        <Text style = { styles.textSecond }>/ 20</Text>
                     </View>
                 </View>
                 <LinearGradient
                     style = { styles.footer }
                     start={{x: 0.0, y: 0.0}} end={{x: 1.0, y: 1.0}}
-                    colors={colorArray}
+                    colors={ this.state.colorArray }
                 >
                     <Text style = { styles.footerTxt } >{ course.id }</Text>
                 </LinearGradient>
@@ -48,7 +71,7 @@ class CourseItem extends React.Component {
 
 const styles = StyleSheet.create({
     container : {
-        height : 100,
+        height : 120,
         width: 'auto',
         backgroundColor: 'white',
         marginTop: 10,
