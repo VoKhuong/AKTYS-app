@@ -5,35 +5,34 @@ import {
     StackNavigator, NavigationEvents, createAppContainer, createStackNavigator,
     createBottomTabNavigator, createSwitchNavigator, withNavigation
 } from 'react-navigation'
-import { renderCourseLogo } from '../API/KatysAPI'
+import { renderCourseLogo, formatDateStr } from '../API/KatysAPI'
 import ImagePicker from 'react-native-image-picker'
 
 class GroupItem extends React.Component {
 
-    render() {
+    constructor(props) {
+        super(props)
         this.group = this.props.group
+        this.begin = formatDateStr(this.group.begin)
+        this.end = formatDateStr(this.group.end)
+        this.img = renderCourseLogo(this.group.name)
+    }
+
+    render() {
 
         // traitement
-        img = renderCourseLogo(this.group.subject)
-
-        if (this.group.teacher.id == '1') {
-            colorArray = ['#16222A', '#3A6073'] // yellowOrange
-        } else {
-            colorArray = ['#00F260', '#0575E6'] // greenBlue
-        }
-
 
         // fin traitement
         return (
                 <TouchableOpacity style = { styles.touch } onPress={ () => this.doAllStuff() } >
                     <View style={styles.container}>
                         <View style={styles.iconContainer}>
-                            <Image style={styles.icon} source={img} />
+                            <Image style={styles.icon} source={ this.img } />
                         </View>
                         <View style={styles.info}>
-                            <Text style={styles.info1} >{this.group.subject}</Text>
-                            <Text style={styles.info2} >9:00 - 12:30</Text>
-                            <Text style={styles.info2} >9:00 - 12:30</Text>
+                            <Text style={styles.info1} >{this.group.name}</Text>
+                            <Text style={styles.info2} >{ this.begin }</Text>
+                            <Text style={styles.info2} >{ this.end }</Text>
                         </View>
                     </View>
                     <LinearGradient style = { styles.footer }
