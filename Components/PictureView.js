@@ -28,6 +28,8 @@ class PictureView extends React.Component{
                     data={ this.state.allCourse }
                     renderItem={ ({item}) => <GroupItem group = { item } /> }
                     keyExtractor={(item) => item.id }
+                    onRefresh = {() => this._getFutureCourse()}
+                    refreshing = { false }
                 />
             </View>
         )

@@ -43,7 +43,7 @@ class GroupItem extends React.Component {
     }
 
     doAllStuff() {
-        ImagePicker.showImagePicker({}, (response) => {
+        ImagePicker.showImagePicker({quality : 0.1}, (response) => {
             if (response.didCancel) {
               console.log('L\'utilisateur a annulé')
             }
@@ -51,7 +51,9 @@ class GroupItem extends React.Component {
               console.log('Erreur : ', response.error)
             }
             else {
-              console.log(response.data)
+                console.log(response.data.length)
+                console.log(this.group.name)
+                this.props.navigation.navigate('Pic', { id : this.group.name })
             }
         })
     }
