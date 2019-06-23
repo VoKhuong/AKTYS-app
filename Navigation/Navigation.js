@@ -20,6 +20,23 @@ const AuthStack = createStackNavigator(
     }
 )
 
+const PicStack = createStackNavigator(
+    {
+        PictureStack:{
+            screen: PictureView,
+        },
+        TakePicture:{
+            screen: TakePictureView,
+        }, 
+    },
+    {
+        headerMode: 'none',
+        navigationOptions: {
+            headerVisible: false
+        }
+    }
+)
+
 const AppStack = createBottomTabNavigator(
     {
         History: {
@@ -45,7 +62,7 @@ const AppStack = createBottomTabNavigator(
             }
         },
         Picture: {
-            screen: PictureView,
+            screen: PicStack,
             navigationOptions: {
                 tabBarIcon: ({ focused }) => {
                     if (focused){
@@ -99,13 +116,6 @@ const AppStack = createBottomTabNavigator(
         }
       }
 )
-const PicStack = createStackNavigator(
-    {
-        TakePicture:{
-            screen: TakePictureView,
-        }
-    },
-)
 
 const styles = StyleSheet.create({
     icon: {
@@ -117,8 +127,7 @@ const styles = StyleSheet.create({
 const SwitchStack = createSwitchNavigator(
     {
         App: AppStack,
-        Auth: AuthStack,
-        Pic: PicStack
+        Auth: AuthStack
     },
     {
       initialRouteName: 'Auth',

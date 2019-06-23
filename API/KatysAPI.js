@@ -215,6 +215,34 @@ export async function getFutureCourse() {
     }
 }
 
+export async function getStudent(id) {
+    const request = url + 'students/' + id.toString()
+    try {
+        const response = await fetch(request, {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            }
+        })
+        json = await response.json()
+        if(json.error) {
+            return {
+                firstName: 'Error',
+                lastName: 'Error',
+                mail: 'error@error.com'
+            }
+        }
+        return json
+    } catch (error) {
+        return {
+            firstName: 'Error',
+            lastName: 'Error',
+            mail: 'error@error.com'
+        }
+    }
+}
+
 export function renderCourseLogo(subject) {
     if (subject == 'CPOA') {
         return require('../assets/infoIcon.png')
