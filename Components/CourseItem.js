@@ -10,12 +10,21 @@ class CourseItem extends React.Component {
         const course = this.props.course
         this.state = {
             colorArray: ['#00F260', '#0575E6'],
-            teacherName: ''
+            teacherName: '',
+            present: 0
         }
         this.setFooter(course.teacherId)
         this.getTeacherName(course.teacherId)
         this.begin = formatDateStr(course.begin)
         this.end = formatDateStr(course.end)
+        this.getNumber()
+        console.log(this.state.present)
+    }
+
+    async getNumber(){
+        this.setState({
+            present: await this.props.present
+        })
     }
 
     async getTeacherName(id) {
@@ -52,8 +61,8 @@ class CourseItem extends React.Component {
                         <Text style = { styles.info2 } >{ this.state.teacherName }</Text>
                     </View>
                     <View style = { styles.nbStudents }>
-                        <Text style = { styles.textFirst } >1</Text>
-                        <Text style = { styles.textSecond }>/ 20</Text>
+                        <Text style = { styles.textFirst } >{ this.state.present }</Text>
+                        <Text style = { styles.textSecond }>/ 5</Text>
                     </View>
                 </View>
                 <LinearGradient

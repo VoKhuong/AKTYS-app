@@ -1,4 +1,5 @@
 const url = 'https://katys-server.herokuapp.com/'
+const url2 = 'fuckTibo'
 import AsyncStorage from '@react-native-community/async-storage';
 
 // https://facebook.github.io/react-native/docs/asyncstorage
@@ -252,5 +253,92 @@ export function renderCourseLogo(subject) {
         return require('../assets/lawIcon.png')
     } else {
         return require('../assets/courseIcon.png')
+    }
+}
+
+export async function detectStudent(data, filename) {
+    const request = url2 + 'fuckTibo/'
+    try {
+          const response = await fetch(request, {
+              method: 'POST',
+              headers: {
+                  Accept: 'application/json',
+                  'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                  image: data,
+                  filename: filename,
+              }),
+          })
+          json = await response.json()
+          console.log(json)
+          if (json.error.message == 'missing') {
+              return 0
+          }
+          return json.user.id
+      }
+      catch (error) {
+          console.log(error)
+          return 0
+    }
+}
+
+export async function countPresent(id) {
+    const request = url + 'absences/course/' + id.toString()
+    try {
+        const response = await fetch(request, {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            }
+        })
+        json = await response.json()
+        if(json.error) {
+            return 0
+        }
+        return (5 - json.absentStudentsIds.length)
+    } catch (error) {
+        return 0
+    }
+}
+
+export async function getAbsent(id) {
+    const request = url + 'absences/course/' + id.toString()
+    try {
+        const response = await fetch(request, {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            }
+        })
+        json = await response.json()
+        if(json.error) {
+            return []
+        }
+        return json.absentStudentsIds
+    } catch (error) {
+        return []
+    }
+}
+
+export async function postAbsent(ids, courseId) {
+    const request = url + 'absences/createAbsences/'
+    try {
+        const response = await fetch(request, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                absentStudentsIds: ids,
+                courseId: courseId,
+            }),
+        })
+        json = await response.json()
+    } catch (error) {
+        console.log('error')
     }
 }

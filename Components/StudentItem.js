@@ -7,7 +7,6 @@ class StudentItem extends React.Component {
     constructor(props) {
         super(props)
         this.studentId = this.props.student
-        this.status = this.props.status
         console.log(this.studentId)
         console.log(this.status)
         this.state = {
@@ -17,16 +16,12 @@ class StudentItem extends React.Component {
                 mail: ''
             }
         }
+        this.img = require('../assets/errorIcon.png')
         this._getStudent(this.studentId)
     }
 
     render() {
         console.log(this.state.student)
-        if (this.status) {
-            img = require('../assets/successIcon.png')
-        } else {
-            img = require('../assets/errorIcon.png')
-        }
         return (
             <View style = { styles.container } >
                 <View style = { styles.content } >
@@ -38,7 +33,7 @@ class StudentItem extends React.Component {
                         <Text style = { styles.info2 } >{this.state.student.mail}</Text>
                     </View>
                     <View style = { styles.status }>
-                        <Image style = { styles.iconStatus } source={ img } />
+                        <Image style = { styles.iconStatus } source={ this.img } />
                     </View>
                 </View>
                 <LinearGradient
@@ -53,8 +48,9 @@ class StudentItem extends React.Component {
     }
 
     async _getStudent(id) {
+        tmp = await getStudent(id)
         this.setState({
-            student: await getStudent(id)
+            student: tmp
         })
     }
 }

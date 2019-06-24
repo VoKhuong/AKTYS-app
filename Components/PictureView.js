@@ -27,7 +27,7 @@ class PictureView extends React.Component{
                 <FlatList
                     data={ this.state.allCourse }
                     renderItem={ ({item}) => <GroupItem group = { item } /> }
-                    keyExtractor={(item) => item.id }
+                    keyExtractor={(item) => item.id.toString() }
                     onRefresh = {() => this._getFutureCourse()}
                     refreshing = { false }
                 />

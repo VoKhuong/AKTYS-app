@@ -2,7 +2,7 @@ import React from 'react'
 import { View, StyleSheet, FlatList, Image, StatusBar } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
 import CourseItem from './CourseItem'
-import { getAllCourse } from '../API/KatysAPI'
+import { getAllCourse, countPresent } from '../API/KatysAPI'
 
 class HistoryView extends React.Component {
 
@@ -27,8 +27,8 @@ class HistoryView extends React.Component {
                 </LinearGradient>
                 <FlatList
                     data={ this.state.allCourse }
-                    renderItem={ ({item}) => <CourseItem course = { item } /> }
-                    keyExtractor={ (item) => item.id }
+                    renderItem={ ({item}) => <CourseItem course = { item } present = { this._countPresent(item.id) } /> }
+                    keyExtractor={ (item) => item.id.toString() }
                     onRefresh = {() => this._getAllCourse()}
                     refreshing = { false }
                 />
@@ -38,6 +38,12 @@ class HistoryView extends React.Component {
 
     async _getAllCourse() {
         this.setState({ allCourse: await getAllCourse() })
+    }
+
+    async _countPresent(id) {
+        tmp = await countPresent(id)
+        console.log(tmp)
+        return tmp
     }
 }
 
